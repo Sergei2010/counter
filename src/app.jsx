@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Counters from './components/counters'
 import NavBar from './components/navBar'
 
 function App() {
-	const InitialState = [
+	const initialState = [
 		{ value: 0, id: 1, name: 'Ложка', disabled: 'disabled' },
 		{ value: 4, id: 2, name: 'Вилка', disabled: '' },
 		{ value: 0, id: 3, name: 'Тарелка', disabled: 'disabled' },
@@ -15,6 +15,7 @@ function App() {
 		},
 		{ value: 0, id: 5, name: 'Ненужные вещи', disabled: 'disabled' },
 	]
+	const[counters, setCounters] = useState(initialState)
 
 	const handlerDisabled = () => {
 		const newCounters = counters.map(c => {
@@ -34,6 +35,13 @@ function App() {
 		setCounters(newCounters)
 	}
 
+	/* const handleIncrement = counterId => {
+		const newCounters = [...counters]
+		const elementIndex = counters.filter(c => c.id === counterId)
+		newCounters[elementIndex].value++
+		setCounters(newCounters)
+	} */
+
 	const handleDecrement = counterId => {
 		const newCounters = counters.map(c => {
 			return c.id === counterId
@@ -46,7 +54,14 @@ function App() {
 		handlerDisabled()
 	}
 
-	const handleDelete = counterId => {
+	/* const handleDecrement = (counterId) => {
+		const newCounters = [...counters]
+		const elementIndex = counters.filter(c => c.id === counterId)
+		newCounters[elementIndex].value--
+		setCounters(newCounters)
+	} */
+
+	const handleDelete = (counterId) => {
 		const newCounters = counters.filter(c => c.id !== counterId)
 		setCounters(newCounters)
 	}
@@ -55,7 +70,7 @@ function App() {
 	return (
 		<div className='col-lg-8 mx-auto p-3 py-md-5'>
 			<main>
-				<NavBar />
+				<NavBar totalItems={counters.reduce((a,c)=>a+c.value,0)}/>
 				<Counters
 					onIncrement={handleIncrement}
 					onDecrement={handleDecrement}
